@@ -25,10 +25,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
+using NUnit.Framework.Constraints;
 using NUnit.Framework.Interfaces;
 using NUnit.Framework.Internal;
 using NUnit.TestData.TestCaseSourceAttributeFixture;
 using NUnit.TestUtilities;
+using NUnit.TestUtilities.Collections;
 
 namespace NUnit.Framework.Attributes
 {
@@ -380,6 +382,7 @@ namespace NUnit.Framework.Attributes
                 throw new System.Exception("my message");
             }
         }
+
         #endregion
     }
 
@@ -389,5 +392,288 @@ namespace NUnit.Framework.Attributes
         {
             get { yield return true; }
         }
+    }
+
+    [TestFixture]
+    public class TestCaseSourceTestsForCollectionsOfCollections
+    {
+        private static readonly string[] ArrayOfStrings = { "A", "B" };
+
+        [Ignore("Fails as Enumerable+WhereSelectArrayIterator cannot be implicitly converted to string[] - could be resolved with a .ToArray() call")]
+        [TestCaseSource(nameof(IEnumerableOfCaseDatas_ContainingTestCaseDataWithEnumerableOfStrings))]
+        public void IEnumerableOfCaseDatas_ContainingTestCaseDataWithEnumerableOfStrings_ToArrayOfString(
+            string[] arrayOfStrings)
+        {
+            Assert.That(
+               arrayOfStrings,
+               Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [Ignore("Fail as List<string> cannot be implicitly converted to string[] - could be resolved with a .ToArray() call")]
+        [TestCaseSource(nameof(IEnumerableOfCaseDatas_ContainingTestCaseDataWithListOfStrings))]
+        public void IEnumerableOfCaseDatas_ContainingTestCaseDataWithListOfStrings_ToArrayOfString(
+            string[] arrayOfStrings)
+        {
+            Assert.That(
+               arrayOfStrings,
+               Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfCaseDatas_ContainingTestCaseDataWithArrayOfStrings))]
+        public void IEnumerableOfCaseDatas_ContainingTestCaseDataOfArrayOfStrings_ToArrayOfString(
+            string[] arrayOfStrings)
+        {
+            Assert.That(
+                arrayOfStrings,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [Ignore("Fails as Enumerable+WhereSelectArrayIterator cannot be implicitly converted to string[] - could be resolved with a .ToArray() call")]
+        [TestCaseSource(nameof(IEnumerableOfIEnumerablesOfString_ContainingIEnumerableOfStrings))]
+        public void IEnumerableOfIEnumerablesOfString_ContainingIEnumerableOfStrings_ToArrayOfString(
+            string[] arrayOfStrings)
+        {
+            Assert.That(
+                arrayOfStrings,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [Ignore("Fail as List<string> cannot be implicitly converted to string[] - could be resolved with a .ToArray() call")]
+        [TestCaseSource(nameof(IEnumerableOfListsOfString_ContainingListsOfString))]
+        public void IEnumerableOfListsOfString_ContainingListsOfString_ToArrayOfString(
+            string[] arrayOfStrings)
+        {
+            Assert.That(
+                arrayOfStrings,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfIEnumerablesOfString_ContainingArraysOfString))]
+        public void IEnumerableOfIEnumerablesOfString_ContainingArraysOfString_ToArrayOfString(
+            string[] arrayOfStrings)
+        {
+            Assert.That(
+                arrayOfStrings,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [Ignore("Fail as List<string> cannot be converted to string[] - could be resolved with a .ToArray() call")]
+        [TestCaseSource(nameof(IEnumerableOfIEnumerablesOfString_ContainingListsOfString))]
+        public void IEnumerableOfIEnumerablesOfString_ContainingListsOfString_ToArrayOfString(
+            string[] arrayOfStrings)
+        {
+            Assert.That(
+                arrayOfStrings,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [Ignore("Fail as SimpleObjectCollection cannot be converted to string[] - could be resolved with a .ToArray() call")]
+        [TestCaseSource(nameof(ArrayOfArraysOfObject_ContainingSimpleObjectCollectionsWithStrings))]
+        public void ArrayOfArraysOfObject_ContainingSimpleObjectCollectionsWithStrings_ToArrayeOfString(string[] arrayOfStrings)
+        {
+            Assert.That(
+                arrayOfStrings,
+                Is.EqualTo(ArrayOfStrings));
+        }
+
+        [Ignore("Fail as List<string> cannot be converted to string[] - could be resolved with a .ToArray() call")]
+        [TestCaseSource(nameof(IEnumerableOfIEnumerablesOfString_ContainingListsOfString))]
+        public void IEnumerableOfIEnumerablesOfString_ContainingListsOfString_ToArrayOfStrings(string[] arrayOfStrings)
+        {
+            Assert.That(
+                arrayOfStrings,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+
+        [TestCaseSource(nameof(IEnumerableOfCaseDatas_ContainingTestCaseDataWithEnumerableOfStrings))]
+        public void SourceIsACollectionsOfStringAndParameterTargetIsEnumerableOfStrings_ToIEnumerableOfString(
+            IEnumerable<string> enumerableOfStrings)
+        {
+            Assert.That(
+               enumerableOfStrings,
+               Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfCaseDatas_ContainingTestCaseDataWithListOfStrings))]
+        public void IEnumerableOfCaseDatas_ContainingTestCaseDataWithListOfStrings_ToIEnumerableOfString(
+            IEnumerable<string> enumerableOfStrings)
+        {
+            Assert.That(
+               enumerableOfStrings,
+               Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfCaseDatas_ContainingTestCaseDataWithArrayOfStrings))]
+        public void IEnumerableOfCaseDatas_ContainingTestCaseDataOfArrayOfStrings_ToIEnumerableOfString(
+            IEnumerable<string> enumerableOfStrings)
+        {
+            Assert.That(
+                enumerableOfStrings,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfIEnumerablesOfString_ContainingIEnumerableOfStrings))]
+        public void IEnumerableOfIEnumerablesOfString_ContainingIEnumerableOfStrings_ToIEnumerableOfString(
+            IEnumerable<string> enumerableOfStrings)
+        {
+            Assert.That(
+                enumerableOfStrings,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfListsOfString_ContainingListsOfString))]
+        public void IEnumerableOfListsOfString_ContainingListsOfString_ToIEnumerableOfString(
+            IEnumerable<string> enumerableOfStrings)
+        {
+            Assert.That(
+                enumerableOfStrings,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfIEnumerablesOfString_ContainingArraysOfString))]
+        public void IEnumerableOfIEnumerablesOfString_ContainingArraysOfString_ToIEnumerableOfString(IEnumerable<string> enumerableOfStrings)
+        {
+            Assert.That(
+                enumerableOfStrings, 
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfIEnumerablesOfString_ContainingListsOfString))]
+        public void IEnumerableOfIEnumerablesOfString_ContainingListsOfString_ToIEnumerableOfString(
+            IEnumerable<string> enumerable)
+        {
+            Assert.That(
+                enumerable, 
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfIEnumerablesOfString_ContainingListsOfString))]
+        public void IEnumerableOfIEnumerablesOfString_ContainingListsOfString_ToIEnumerableOfStrings(IEnumerable<string> enumerableOfStrings)
+        {
+            Assert.That(
+                enumerableOfStrings,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(ArrayOfArraysOfObject_ContainingSimpleObjectCollectionsWithStrings))]
+        public void ArrayOfArraysOfObject_ContainingSimpleObjectCollectionsWithStrings_ToIEnumerable(IEnumerable enumerable)
+        {
+            Assert.That(
+                enumerable,
+                Is.EqualTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfCaseDatas_ContainingTestCaseDataWithEnumerableOfStrings))]
+        public void IEnumerableOfCaseDatas_ContainingTestCaseDataWithEnumerableOfStrings_ToIEnumerable(IEnumerable enumerable)
+        {
+            Assert.That(
+               enumerable,
+               Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfCaseDatas_ContainingTestCaseDataWithListOfStrings))]
+        public void IEnumerableOfCaseDatas_ContainingTestCaseDataWithListOfStrings_ToIEnumerable(IEnumerable enumerable)
+        {
+            Assert.That(
+               enumerable,
+               Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfCaseDatas_ContainingTestCaseDataWithArrayOfStrings))]
+        public void IEnumerableOfCaseDatas_ContainingTestCaseDataOfArrayOfStrings_ToIEnumerable(IEnumerable enumerable)
+        {
+            Assert.That(
+                enumerable,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfIEnumerablesOfString_ContainingIEnumerableOfStrings))]
+        public void IEnumerableOfIEnumerablesOfString_ContainingIEnumerableOfStrings_ToIEnumerable(IEnumerable enumerable)
+        {
+            Assert.That(
+                enumerable,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfListsOfString_ContainingListsOfString))]
+        public void IEnumerableOfListsOfString_ContainingListsOfString_ToIEnumerable(IEnumerable enumerable)
+        {
+            Assert.That(
+                enumerable,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(IEnumerableOfIEnumerablesOfString_ContainingArraysOfString))]
+        public void IEnumerableOfIEnumerablesOfString_ContainingArraysOfString_ToIEnumerable(IEnumerable enumerable)
+        {
+            Assert.That(
+                enumerable,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [Ignore("Fail as List<string> cannot be converted to string[] - could be resolved with a .ToArray() call")]
+        [TestCaseSource(nameof(IEnumerableOfIEnumerablesOfString_ContainingListsOfString))]
+        public void IEnumerableOfIEnumerablesOfString_ContainingListsOfString_ToIEnumerable(IEnumerable enumerable)
+        {
+            Assert.That(
+                enumerable,
+                Is.EquivalentTo(ArrayOfStrings));
+        }
+
+        [TestCaseSource(nameof(ArrayOfArraysOfObject_ContainingArraysOfString))]
+        public void ArrayOfArraysOfObject_ContainingArraysOfString_ToIEnumerable(IEnumerable enumerable)
+        {
+            Assert.That(
+              enumerable,
+              Is.EqualTo(ArrayOfStrings));
+        }
+
+
+
+        private static readonly object[] ArrayOfArraysOfObject_ContainingArraysOfString =
+        {
+            new object[] {ArrayOfStrings}
+        };
+
+        private static readonly object[] ArrayOfArraysOfObject_ContainingSimpleObjectCollectionsWithStrings =
+        {
+            new SimpleObjectCollection(ArrayOfStrings)
+        };
+
+        static readonly IEnumerable<IEnumerable<string>> IEnumerableOfIEnumerablesOfString_ContainingListsOfString = new[]
+        {
+            new List<string>(ArrayOfStrings)
+        };
+
+        static readonly IEnumerable<IEnumerable<string>> IEnumerableOfIEnumerablesOfString_ContainingArraysOfString = new[]
+        {
+            ArrayOfStrings
+        };
+
+        static readonly IEnumerable<List<string>> IEnumerableOfListsOfString_ContainingListsOfString = new[]
+        {
+            new List<string>(ArrayOfStrings)
+        };
+
+        static readonly IEnumerable<TestCaseData> IEnumerableOfCaseDatas_ContainingTestCaseDataWithEnumerableOfStrings = new[]
+{
+            new TestCaseData(ArrayOfStrings.Select(x => x))
+        };
+
+        static readonly IEnumerable<TestCaseData> IEnumerableOfCaseDatas_ContainingTestCaseDataWithListOfStrings = new[]
+        {
+            new TestCaseData(new List<string>(ArrayOfStrings))
+        };
+
+        static readonly IEnumerable<TestCaseData> IEnumerableOfCaseDatas_ContainingTestCaseDataWithArrayOfStrings = new[]
+        {
+            new TestCaseData(ArrayOfStrings)
+        };
+
+        static readonly IEnumerable<IEnumerable<string>> IEnumerableOfIEnumerablesOfString_ContainingIEnumerableOfStrings = new[]
+{
+            ArrayOfStrings.Select(x => x)
+        };
     }
 }
